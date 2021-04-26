@@ -2,6 +2,8 @@ import numpy as np
 from pathlib import Path
 from matplotlib import pyplot as plt
 from astropy.io import fits
+from astropy.constants import c, h
+from astropy import units as u
 plt.rcParams.update({'font.size': 16})
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
@@ -10,7 +12,8 @@ def plot_image(image,
                title='Image',
                input_ratio=None,
                interval_type='zscale',
-               percentile=99):
+               percentile=99,
+               default_ticks=False):
     from astropy.visualization import (ZScaleInterval,
                                        PercentileInterval,
                                        MinMaxInterval,
@@ -43,8 +46,10 @@ def plot_image(image,
     ax.set_xlabel("x [pixels]")
     ax.set_ylabel("y [pixels]")
     ax.set_title(title, fontsize=14)
-    ax.set_xticks(np.arange(0, 1200, 200))
-    ax.set_yticks(np.arange(0, 1200, 200))
+    
+    if default_ticks == False:
+        ax.set_xticks(np.arange(0, 1200, 200))
+        ax.set_yticks(np.arange(0, 1200, 200))
     plt.show()
     
 def get_read_noise(image,
@@ -138,4 +143,83 @@ def get_sky_bkg(image,
     sky_im = np.random.poisson(lam=sky_adu, size=image.shape)
     return sky_im
 
+def flambda_from_fnu(bandpass, 
+                     fnu,
+                     frequencies):
+    """
+    Converts frequency dependent flux density to wavelength 
+    dependent flux density
+    
+    inputs:
+    bandpass: (array)
+        instrument bandpass 
+    fnu: (array)
+        wavelength dependent flux density n 
+        increments of 1 nm [erg/s/cm^2/Hz] 
+    frequencies: (array)
+        frequencies  
+    band: (str)
+    returns:
+        (float)
+        mean of flux density in [erg/s/cm^2/nm]
+    """
+    bandpass = np.asarray(bandpass)
+    frequencies = np.asarray(frequencies)
+    frequencies *= u.Hz
+        
+    fnu *= (u.erg/u.s/u.cm**2/u.Hz)
+    
+    del_nu =((np.max(frequencies) - np.min(frequencies)) 
+             / len(frequencies))
+    
+    numerator = np.trapz(bandpass*fnu,
+                         x=frequencies,
+                         dx=del_nu)
+    denominator = np.trapz(y=bandpass*c/frequencies**2.,
+                         x=frequencies,
+                         dx=del_nu)
+    flambda = (numerator / denominator).to(u.erg/u.s/u.cm**2/u.nm).value
+    
+    return flambda
 
+def countrate_from_flambda(flambda,
+                           bandpass,
+                           wavelengths,
+                           illumination_area):    
+    
+    flambda *= u.erg/u.s/u.cm**2/u.nm
+    wave_int = np.asarray(wavelengths)
+    wave_int *= u.nm
+    illumination_area *= u.cm**2.
+    bandpass = np.asarray(bandpass)
+    
+    integrand = (illumination_area  
+               * flambda 
+               * bandpass 
+               * wave_int) / (h * c)
+
+    del_lam = ((np.max(wave_int) - np.min(wave_int)) / len(wave_int))
+
+    count_rate = (np.trapz(y=integrand, 
+                           x=wave_int, 
+                           dx=del_lam).to(u.s**-1)) # electrons/s
+    
+    return count_rate.value
+
+def abmag_to_fnu(abmag):
+    """
+    Convert ABmag to flux density [erg/s/cm^2/Hz] 
+    """
+    return 10**((abmag+48.6) / -2.5)
+
+def fnu_to_abmag(fd_freq):
+    """
+    Convert flux density [erg/s/cm^2/Hz] to ABmag
+    """
+    return -2.5*np.log10(fd_freq) - 48.60
+
+def wave_to_freq(wavelength):
+    """
+    Wavelengeth to frequency converter
+    """
+    return (c / (wavelength*u.nm)).to(u.Hz).value
