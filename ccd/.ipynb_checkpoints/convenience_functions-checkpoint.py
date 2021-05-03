@@ -117,6 +117,8 @@ def get_dark_current(image,
                 gain=1.0,
                 hot_pixels=False,
                 hot_pixels_percentage=0.01):
+    
+    np.random.seed(0)
     dark_adu = dark_current * exposure_time / gain
     dark_im = np.random.poisson(lam=dark_adu, size=image.shape)
     
@@ -138,10 +140,21 @@ def get_dark_current(image,
 def get_sky_bkg(image, 
                 sky_noise_electrons,
                 exposure_time,
-                gain=1.0):    
+                gain=1.0):   
+    
+    np.random.seed(0)
     sky_adu = sky_noise_electrons * exposure_time / gain
     sky_im = np.random.poisson(lam=sky_adu, size=image.shape)
     return sky_im
+
+def get_flat(image,
+             percent_variations=5):
+    
+    np.random.seed(0)
+    flat = np.random.uniform(low=1-(5/100),
+                             high=1.0,
+                             size=image.shape)
+    return flat
 
 def flambda_from_fnu(bandpass, 
                      fnu,
