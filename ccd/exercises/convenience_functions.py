@@ -1,9 +1,5 @@
 import numpy as np
-from pathlib import Path
 from matplotlib import pyplot as plt
-from astropy.io import fits
-from astropy.constants import c, h
-from astropy import units as u
 plt.rcParams.update({'font.size': 16})
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
@@ -156,68 +152,44 @@ def get_flat(image,
                              size=image.shape)
     return flat
 
-def flambda_from_fnu(bandpass, 
-                     fnu,
-                     frequencies):
-    """
-    Converts frequency dependent flux density to wavelength 
-    dependent flux density
+# def flambda_from_fnu(bandpass, 
+#                      fnu,
+#                      frequencies):
+#     """
+#     Converts frequency dependent flux density to wavelength 
+#     dependent flux density
     
-    inputs:
-    bandpass: (array)
-        instrument bandpass 
-    fnu: (array)
-        wavelength dependent flux density n 
-        increments of 1 nm [erg/s/cm^2/Hz] 
-    frequencies: (array)
-        frequencies  
-    band: (str)
-    returns:
-        (float)
-        mean of flux density in [erg/s/cm^2/nm]
-    """
-    bandpass = np.asarray(bandpass)
-    frequencies = np.asarray(frequencies)
-    frequencies *= u.Hz
+#     inputs:
+#     bandpass: (array)
+#         instrument bandpass 
+#     fnu: (array)
+#         wavelength dependent flux density n 
+#         increments of 1 nm [erg/s/cm^2/Hz] 
+#     frequencies: (array)
+#         frequencies  
+#     band: (str)
+#     returns:
+#         (float)
+#         mean of flux density in [erg/s/cm^2/nm]
+#     """
+#     bandpass = np.asarray(bandpass)
+#     frequencies = np.asarray(frequencies)
+#     frequencies *= u.Hz
         
-    fnu *= (u.erg/u.s/u.cm**2/u.Hz)
+#     fnu *= (u.erg/u.s/u.cm**2/u.Hz)
     
-    del_nu =((np.max(frequencies) - np.min(frequencies)) 
-             / len(frequencies))
+#     del_nu =((np.max(frequencies) - np.min(frequencies)) 
+#              / len(frequencies))
     
-    numerator = np.trapz(bandpass*fnu,
-                         x=frequencies,
-                         dx=del_nu)
-    denominator = np.trapz(y=bandpass*c/frequencies**2.,
-                         x=frequencies,
-                         dx=del_nu)
-    flambda = (numerator / denominator).to(u.erg/u.s/u.cm**2/u.nm).value
+#     numerator = np.trapz(bandpass*fnu,
+#                          x=frequencies,
+#                          dx=del_nu)
+#     denominator = np.trapz(y=bandpass*c/frequencies**2.,
+#                          x=frequencies,
+#                          dx=del_nu)
+#     flambda = (numerator / denominator).to(u.erg/u.s/u.cm**2/u.nm).value
     
-    return flambda
-
-def countrate_from_flambda(flambda,
-                           bandpass,
-                           wavelengths,
-                           illumination_area):    
-    
-    flambda *= u.erg/u.s/u.cm**2/u.nm
-    wave_int = np.asarray(wavelengths)
-    wave_int *= u.nm
-    illumination_area *= u.cm**2.
-    bandpass = np.asarray(bandpass)
-    
-    integrand = (illumination_area  
-               * flambda 
-               * bandpass 
-               * wave_int) / (h * c)
-
-    del_lam = ((np.max(wave_int) - np.min(wave_int)) / len(wave_int))
-
-    count_rate = (np.trapz(y=integrand, 
-                           x=wave_int, 
-                           dx=del_lam).to(u.s**-1)) # electrons/s
-    
-    return count_rate.value
+#     return flambda
 
 def abmag_to_fnu(abmag):
     """
@@ -231,8 +203,53 @@ def fnu_to_abmag(fd_freq):
     """
     return -2.5*np.log10(fd_freq) - 48.60
 
-def wave_to_freq(wavelength):
-    """
-    Wavelengeth to frequency converter
-    """
-    return (c / (wavelength*u.nm)).to(u.Hz).value
+def noise_image_interactive(bias_value=200,
+                   read_noise_std=10,
+                   gain=0.76,
+                   dark_current=0.1,
+                   hot_pixels=False,
+                   hot_pixels_percentage=0.01,
+                   sky_noise_electrons=0.5,
+                   exposure_time=100,
+                   flat_percent_variations=5,
+                   num_bad_columns=6):
+    
+    # Construct a blank image
+    blank_image = np.zeros([1000, 1000])
+    
+    # Construct a read noise only image
+    im_read_noise = get_read_noise(image=blank_image,
+                                   read_noise_std=read_noise_std,
+                                   gain=gain)
+    
+    # Construct a dark current only image
+    im_dark_current = get_dark_current(image=blank_image,
+                               dark_current=dark_current,
+                               gain=gain,
+                               exposure_time=exposure_time,
+                               hot_pixels=hot_pixels,
+                               hot_pixels_percentage=hot_pixels_percentage)
+    
+    # Construct a sky noise only image
+    im_sky_noise = get_sky_bkg(image=blank_image,
+                                 sky_noise_electrons=sky_noise_electrons,
+                                 gain=gain,
+                                 exposure_time=exposure_time)
+    
+    im_flat = get_flat(image=blank_image,
+                  percent_variations=flat_percent_variations)
+
+    # Flat field correct the sky noise image
+    im_sky_noise_corr = np.multiply(im_sky_noise, im_flat)
+    
+    # Construct a bias only image
+    im_bias = get_bias_level(image=blank_image,
+                         bias_value=bias_value,
+                         num_columns=num_bad_columns)
+
+    noise = im_read_noise+im_dark_current+im_sky_noise_corr+im_bias
+    
+    # plot
+    plot_image(image=noise, title="Noise image")
+    return None
+    
