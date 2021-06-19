@@ -1,0 +1,5 @@
+numpy==1.19.2
+matplotlib==3.3.4
+ipywidgets==7.6.3
+pandas==1.2.3
+astropy==4.2
