@@ -15,7 +15,7 @@ which can be installed via `pip install <package name>` in terminal if not alrea
 
 **Information about the Lab Activity 1**
 1) Lab Activity 1 consists of ccd data reduction and photometric calibration exercises.
-2) The exercies are in Jupyter notebook format and are located in the `exercises` folder.
+2) The exercies with the solutions are in Jupyter notebook format and are located in the `ccd_exercises/solutions` folder.
 3) The learning outcomes of the exercises are:
 4) **Notebook 1: Basics of CCD operation**
     - We will learn about the basics of CCD operation.
