@@ -1,6 +1,6 @@
 Dunlap Summer School 2021 Lab Activity 1 (CCD Data Reduction and Photometry).
 
-Instructions
+**Instructions**
 1) Lab Activity 1 can be completed using two ways:
 a) Downloading the required Jupyter notebooks and associated data files onto your local machine.
 b) Using the provided binder links (which hosts the notebooks online).
@@ -15,9 +15,10 @@ b) Using the provided binder links (which hosts the notebooks online).
     astropy==4.2
 
 which can be installed via `pip install <package name>` in terminal. 
+
 5) For path (b): the binder link for Lab Activity 1 is: here.
 
-Information about the Lab Activity 1
+**Information about the Lab Activity 1**
 1) Lab Activity 1 consists of ccd data reduction and photometric calibration exercises.
 2) The exercies are in Jupyter notebook format and are located in the `exercises` folder.
 3) The learning outcomes of the exercises are:
