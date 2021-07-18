@@ -1,4 +1,20 @@
-1) This repository consists of ccd data reduction and photometric calibration exercises for the Dunlap Summer School 2021.
+Dunlap Summer School 2021 Lab Activity 1 (CCD Data Reduction and Photometry).
+
+**Instructions**
+1) Lab Activity 1 can be completed using two ways:
+a) Downloading the required Jupyter notebooks and associated data files onto your local machine.
+b) Using the provided binder links (which hosts the notebooks online).
+
+2) For path (a): the download link for Lab Activity 1 is: here
+3) For those who do not have Jupyter installed, we recommend installing Anaconda (see instructions here: https://docs.anaconda.com/anaconda/install/)
+4) Lab Activity 1 requires the following packages: numpy==1.19.2, matplotlib==3.3.4, ipywidgets==7.6.3, pandas==1.2.3, astropy==4.2
+
+which can be installed via `pip install <package name>` in terminal if not already installed.  
+
+5) For path (b): the binder link for Lab Activity 1 is: here.
+
+**Information about the Lab Activity 1**
+1) Lab Activity 1 consists of ccd data reduction and photometric calibration exercises.
 2) The exercies are in Jupyter notebook format and are located in the `exercises` folder.
 3) The learning outcomes of the exercises are:
 4) **Notebook 1: Basics of CCD operation**
@@ -17,7 +33,7 @@
     - We will learn about the different components that lead to the calculation of the SNR.
     - We will study the impact of changing the exposure time of your observation on the SNR.
     - We will study the how the SNR changes for one long exposure compared to multiple short exposures.
-    - We will interactively vary the parameters in the SNR calculation, to see which parameters dominate. 
+    - We will interactively vary the parameters in the SNR calculation, to see which parameters dominate.
 7) **Notebook 4: Photometric Calibration of Realistic Image**
     - We will learn about astronomical magnitude systems and the flux densities (or spectral energy distributions) of a star.
     - We will learn about how to construct a bandpass of the instrument by combining multiple instrument components such as:
@@ -26,7 +42,12 @@
         - The filter response
     - We will then use realistic images of a g2v spectral type star observed by our instrument.
     - We will clean the images using calibration images.
-    - We will then estimate the sky background level in digital units. 
+    - We will then estimate the sky background level in digital units.
     - Knowing the spectral type of the star and the observed count rate, we will estimate the sensitivity of the instrument in different bands.
     - Knowing the sensitivity, we will estimate the AB magnitude of the star as well as the night sky background per square arcsecond in the different bands.
+
+
+
+
+
 
