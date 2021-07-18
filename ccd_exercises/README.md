@@ -7,14 +7,9 @@ b) Using the provided binder links (which hosts the notebooks online).
 
 2) For path (a): the download link for Lab Activity 1 is: here
 3) For those who do not have Jupyter installed, we recommend installing Anaconda (see instructions here: https://docs.anaconda.com/anaconda/install/)
-4) Lab Activity 1 requires the following packages:
-    numpy==1.19.2
-    matplotlib==3.3.4
-    ipywidgets==7.6.3
-    pandas==1.2.3
-    astropy==4.2
+4) Lab Activity 1 requires the following packages: numpy==1.19.2, matplotlib==3.3.4, ipywidgets==7.6.3, pandas==1.2.3, astropy==4.2
 
-which can be installed via `pip install <package name>` in terminal. 
+which can be installed via `pip install <package name>` in terminal if not already installed.  
 
 5) For path (b): the binder link for Lab Activity 1 is: here.
 
