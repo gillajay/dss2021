@@ -2,7 +2,9 @@ Dunlap Summer School 2021 Lab Activity 1 (CCD Data Reduction and Photometry).
 
 **Instructions**
 1) Lab Activity 1 can be completed using two ways:
+
 a) Downloading the required Jupyter notebooks and associated data files onto your local machine.
+
 b) Using the provided binder links (which hosts the notebooks online).
 
 2) For path (a): the download link for Lab Activity 1 is: here
@@ -13,10 +15,11 @@ which can be installed via `pip install <package name>` in terminal if not alrea
 
 5) For path (b): the binder link for Lab Activity 1 is: here.
 
-**Information about the Lab Activity 1**
+**Lab Activity 1 Overview**
 1) Lab Activity 1 consists of ccd data reduction and photometric calibration exercises.
-2) The exercies are in Jupyter notebook format and are located in the `exercises` folder.
-3) The learning outcomes of the exercises are:
+2) The exercises are in Jupyter notebook format and are located in the `ccd_exercises/exercises` folder.
+3) The learning outcomes for the different Jupyter notebooks are listed below.
+
 4) **Notebook 1: Basics of CCD operation**
     - We will learn about the basics of CCD operation.
 5) **Notebook 2:  Realistic Image Simulations**
@@ -45,6 +48,10 @@ which can be installed via `pip install <package name>` in terminal if not alrea
     - We will then estimate the sky background level in digital units.
     - Knowing the spectral type of the star and the observed count rate, we will estimate the sensitivity of the instrument in different bands.
     - Knowing the sensitivity, we will estimate the AB magnitude of the star as well as the night sky background per square arcsecond in the different bands.
+
+
+
+
 
 
 
