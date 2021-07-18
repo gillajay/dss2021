@@ -13,7 +13,7 @@ b) Using the provided binder links (which hosts the notebooks online).
 
 which can be installed via `pip install <package name>` in terminal if not already installed.  
 
-5) For path (b): the binder link for Lab Activity 1 is: here.
+5) For path (b): the binder link for Lab Activity 1 will be provided in the Slack channel.
 
 **Lab Activity 1 Overview**
 1) Lab Activity 1 consists of ccd data reduction and photometric calibration exercises.
