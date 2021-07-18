@@ -7,7 +7,7 @@ a) Downloading the required Jupyter notebooks and associated data files onto you
 
 b) Using the provided binder links (which hosts the notebooks online).
 
-2) For path (a): the download link for Lab Activity 1 is: here
+2) For path (a): the download link for Lab Activity 1 is: https://drive.google.com/drive/folders/1Fdd_btSAGmDMasXCNw5RRVf5XrrOZLsq?usp=sharing
 3) For those who do not have Jupyter installed, we recommend installing Anaconda (see instructions here: https://docs.anaconda.com/anaconda/install/)
 4) Lab Activity 1 requires the following packages: numpy==1.19.2, matplotlib==3.3.4, ipywidgets==7.6.3, pandas==1.2.3, astropy==4.2
 
