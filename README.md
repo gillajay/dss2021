@@ -3,7 +3,7 @@ Dunlap Summer School 2021 Lab Activity 1 (CCD Data Reduction and Photometry).
 **Instructions**
 1) Lab Activity 1 can be completed using two ways:
 
-a) Downloading the required Jupyter notebooks and associated data files onto your local machine.
+a) Downloading the required Jupyter notebooks and associated data files onto your local machine (the preferred way).
 
 b) Using the provided binder links (which hosts the notebooks online).
 
